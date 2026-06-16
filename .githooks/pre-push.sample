@@ -1,0 +1,15 @@
+#!/bin/bash
+
+protected_branch="develop"
+current_branch=$(git symbolic-ref HEAD 2>/dev/null | sed 's|refs/heads/||')
+
+if [ "$current_branch" = "$protected_branch" ]; then
+  echo "⚠️  You're about to push directly to 'develop'."
+  read -p "Are you sure? (y/N): " confirm < /dev/tty
+  if [[ "$confirm" != "y" && "$confirm" != "Y" ]]; then
+    echo "Push aborted."
+    exit 1
+  fi
+fi
+
+exit 0
